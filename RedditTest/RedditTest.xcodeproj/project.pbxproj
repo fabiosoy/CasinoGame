@@ -86,19 +86,19 @@
 		E52C68BA1D74A59100A39951 /* RedditTest */ = {
 			isa = PBXGroup;
 			children = (
-				E52C68BB1D74A59100A39951 /* AppDelegate.swift */,
-				E52C68BF1D74A59100A39951 /* Main.storyboard */,
-				E52C68C51D74A59100A39951 /* Assets.xcassets */,
-				E52C68C71D74A59100A39951 /* LaunchScreen.storyboard */,
-				E52C68CA1D74A59100A39951 /* Info.plist */,
-				E5B638861D75B32B003A50C9 /* Managers */,
 				E5B638851D75B30E003A50C9 /* ViewControllers */,
+				E5B638861D75B32B003A50C9 /* Managers */,
 				E5B638871D75C055003A50C9 /* Structs */,
 				E5B638841D75B307003A50C9 /* Protocols */,
 				E52C68E01D74BCA300A39951 /* Extensions */,
 				E5D1A37C1D74E96100F2D767 /* UICollectionViewCell */,
 				E52C68DD1D74AB6500A39951 /* UITableViewCells */,
 				E52C68DA1D74A67C00A39951 /* Models */,
+				E52C68BB1D74A59100A39951 /* AppDelegate.swift */,
+				E52C68BF1D74A59100A39951 /* Main.storyboard */,
+				E52C68C51D74A59100A39951 /* Assets.xcassets */,
+				E52C68C71D74A59100A39951 /* LaunchScreen.storyboard */,
+				E52C68CA1D74A59100A39951 /* Info.plist */,
 			);
 			path = RedditTest;
 			sourceTree = "<group>";

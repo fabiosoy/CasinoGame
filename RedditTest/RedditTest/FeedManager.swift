@@ -48,7 +48,7 @@ class FeedManager : NSObject {
                 if let selfInstance = self {
                     selfInstance.requestSended = false
                     selfInstance.persitData(list)
-                    if let completionHandler = completionHandler {
+                    if let completionHandler = selfInstance.completionHandler {
                         completionHandler(error,selfInstance.coreDataManager.getAllData())
                     }
                 }

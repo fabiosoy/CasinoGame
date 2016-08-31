@@ -191,10 +191,13 @@
                                     <action selector="backTouched:" destination="zhW-SD-fJo" eventType="touchUpInside" id="x3D-hD-uTH"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NRD-J0-Z93">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NRD-J0-Z93">
                                 <rect key="frame" x="546" y="550" width="34" height="30"/>
                                 <state key="normal" title="Save">
                                     <color key="titleColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <state key="disabled">
+                                    <color key="titleColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="saveTouched:" destination="zhW-SD-fJo" eventType="touchUpInside" id="d6P-El-gS1"/>
@@ -230,6 +233,7 @@
                     <connections>
                         <outlet property="activityView" destination="Atc-RU-f20" id="Heb-11-ZKc"/>
                         <outlet property="imageView" destination="npU-i2-Fgx" id="UTN-BB-Oop"/>
+                        <outlet property="saveButton" destination="NRD-J0-Z93" id="35v-Cj-Blh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrb-Gw-YRv" userLabel="First Responder" sceneMemberID="firstResponder"/>

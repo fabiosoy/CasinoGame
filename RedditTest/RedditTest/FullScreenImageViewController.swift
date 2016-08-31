@@ -18,7 +18,7 @@ class FullScreenImageViewController: UIViewController {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var activityView: UIActivityIndicatorView!
-   
+    @IBOutlet weak var saveButton: UIButton!
     //MARK: - View Controller
 
     override func viewDidLoad() {
@@ -30,6 +30,7 @@ class FullScreenImageViewController: UIViewController {
                     if let imageData = imageData {
                         if let image = UIImage(data: imageData) {
                             self?.imageView.image = image
+                            self?.saveButton.enabled = true
                         } else { self?.imageView.image = UIImage(named:"imageBack") }
                     }
                     self?.activityView.stopAnimating()

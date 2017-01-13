@@ -40,7 +40,7 @@ class CollectionViewController: BaseViewController,UICollectionViewDelegate,UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let object = dataList[indexPath.row]
-        let rect = object.tittle?.boundingRect(with: CGSize(width: CollectionLayoutConfig.CELL_WIDTH,height: CollectionLayoutConfig.TEXT_MAX_HEIGHT), options:NSStringDrawingOptions.usesLineFragmentOrigin, attributes:[NSFontAttributeName: UIFont.systemFont(ofSize: CollectionLayoutConfig.FONT_SIZE)], context:nil)
+        let rect = object.tittle?.boundingRect(with: CGSize(width: CollectionLayoutConfig.CELL_WIDTH,height: CollectionLayoutConfig.TEXT_MAX_HEIGHT), options:.usesLineFragmentOrigin, attributes:[NSFontAttributeName: UIFont.systemFont(ofSize: CollectionLayoutConfig.FONT_SIZE)], context:nil)
         return CGSize(width:CollectionLayoutConfig.CELL_WIDTH , height:CollectionLayoutConfig.CELL_MIN_HEIGHT + rect!.size.height )
     }
     

@@ -117,7 +117,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
         if searchText.characters.count > 0 {
-            let filteredArray = fullDataList.filter() { $0.tittle?.range(of: searchText, options: NSString.CompareOptions.caseInsensitive, range: nil, locale: nil) != nil }
+            let filteredArray = fullDataList.filter() { $0.tittle?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil }
             dataList = Array<Feed>(filteredArray)
         } else {
             dataList = Array<Feed>(fullDataList)

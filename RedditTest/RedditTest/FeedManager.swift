@@ -14,11 +14,11 @@ class FeedManager : NSObject {
     
     //MARK: - Private Properties
 
-    private var coreDataManager = CoreDataManager()
+    fileprivate var coreDataManager = CoreDataManager()
     
-    private var requestSended = false
+    fileprivate var requestSended = false
     
-    private var completionHandler : ((NSError?, [Feed])->())?
+    fileprivate var completionHandler : ((Error?, [Feed])->())?
     
     //MARK: - Feed Manager Methods
 
@@ -26,11 +26,11 @@ class FeedManager : NSObject {
         return coreDataManager.getAllData()
     }
     
-    func getFeed(completionHandler : ((NSError?, [Feed])->())?)  {
+    func getFeed(_ completionHandler : ((Error?, [Feed])->())?)  {
        
-        let qosClass = QOS_CLASS_DEFAULT
-        let backgroundQueue = dispatch_get_global_queue(qosClass, 0)
-        dispatch_async(backgroundQueue, {
+        let qosClass = DispatchQoS.QoSClass.default
+        let backgroundQueue = DispatchQueue.global(qos: qosClass)
+        backgroundQueue.async(execute: {
             guard ConnectionManager.isConnectedToNetwork() else {
                 if let completionHandler = completionHandler {
                     completionHandler(nil,self.coreDataManager.getAllData())
@@ -44,7 +44,7 @@ class FeedManager : NSObject {
                 self.requestSended = true
             }
             
-            ConnectionManager.sharedInstance.getDataFromServer { [weak self] ( error : NSError?, list : [AnyObject]) in
+            ConnectionManager.sharedInstance.getDataFromServer { [weak self] ( error : Error?, list : [Any]) in
                 if let selfInstance = self {
                     selfInstance.requestSended = false
                     selfInstance.persitData(list)
@@ -63,7 +63,7 @@ class FeedManager : NSObject {
     }
     
     
-    private func persitData(list : [AnyObject])  {
+    fileprivate func persitData(_ list : [Any])  {
         for element in list {
             if let element = element as? Dictionary<String,AnyObject> {
                 coreDataManager.insertNewObject(element)

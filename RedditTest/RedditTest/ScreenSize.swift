@@ -12,12 +12,12 @@ import UIKit
 struct ScreenSize {
     static var width : Float {
         get {
-            return Float(UIScreen.mainScreen().bounds.size.width)
+            return Float(UIScreen.main.bounds.size.width)
         }
     }
     static var height : Float {
         get {
-            return Float(UIScreen.mainScreen().bounds.size.height)
+            return Float(UIScreen.main.bounds.size.height)
         }
     }
 }

@@ -13,8 +13,8 @@ class TableViewCell: UITableViewCell {
     
     //MARK: - Private Properties
     
-    private weak var delegateTableViewCell : ThumbnailInteractionDelegate?
-    private var feedModel : Feed?
+    fileprivate weak var delegateTableViewCell : ThumbnailInteractionDelegate?
+    fileprivate var feedModel : Feed?
 
     //MARK: - IBOutlets
   
@@ -32,7 +32,7 @@ class TableViewCell: UITableViewCell {
         dateLabel.text = ""
         commentQtyLabel.text = ""
         thumbnailImageView.image = UIImage(named:"imageBack")
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         self.selectedBackgroundView = nil
     }
     
@@ -46,7 +46,7 @@ class TableViewCell: UITableViewCell {
         self.initCell()
     }
     
-    func setModel(model : Feed, delegate : ThumbnailInteractionDelegate) {
+    func setModel(_ model : Feed, delegate : ThumbnailInteractionDelegate) {
         feedModel = model
         delegateTableViewCell = delegate
         tittleLabel.text = model.tittle
@@ -54,12 +54,12 @@ class TableViewCell: UITableViewCell {
         commentQtyLabel.text = model.num_comments?.stringValue
         dateLabel.text = model.date?.timeAgoSinceDate()
         if let data = model.thumbnailData {
-            self.thumbnailImageView.image = UIImage(data: data)
+            self.thumbnailImageView.image = UIImage(data: data as Data)
         } else {
-            ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnail) { [weak self] (imageData : NSData?) in
+            ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnail) { [weak self] (imageData : Data?) in
                 if let imageData = imageData {
                     model.thumbnailData = imageData
-                    dispatch_async(dispatch_get_main_queue(),{
+                    DispatchQueue.main.async(execute: {
                         self?.thumbnailImageView.image = UIImage(data: imageData)
                     })
                 }
@@ -67,7 +67,7 @@ class TableViewCell: UITableViewCell {
         }
     }
     
-    @IBAction func thumbnailTouched(sender: AnyObject) {
+    @IBAction func thumbnailTouched(_ sender: AnyObject) {
         guard let delegate = delegateTableViewCell else { return }
         guard let model = feedModel else { return }
         delegate.thumbnailTouched(model)

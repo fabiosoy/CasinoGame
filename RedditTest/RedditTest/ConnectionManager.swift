@@ -15,7 +15,7 @@ class ConnectionManager: NSObject {
 
     //MARK: - Private Properties
 
-    private var afterToken : String?
+    fileprivate var afterToken : String?
     
     //MARK: - Feed Manager Methods
     
@@ -23,23 +23,23 @@ class ConnectionManager: NSObject {
         afterToken = nil
     }
     
-    func getDataFromServer( completionHandler : ((NSError?, [AnyObject])->())? ) {
-        var finalUrlString = Config.url.stringByAppendingFormat("&limit=%d",Config.limitPerPage)
+    func getDataFromServer( _ completionHandler : ((Error?, [Any])->())? ) {
+        var finalUrlString = Config.url.appendingFormat("&limit=%d",Config.limitPerPage)
         if let afterToken = self.afterToken {
-            finalUrlString = finalUrlString.stringByAppendingFormat("&after=%@",afterToken)
+            finalUrlString = finalUrlString.appendingFormat("&after=%@",afterToken)
         }
-        if let urlRequest = NSURL(string: finalUrlString){
-            let session = NSURLSession.sharedSession()
-            session.dataTaskWithURL(urlRequest) { [weak self] (data : NSData?, response : NSURLResponse?, error : NSError?) in
-                var resultArray = [AnyObject]()
+        if let request = URL(string: finalUrlString){
+            URLSession.shared.dataTask(with: request) {[weak self]
+                data, response, error in
+                var resultArray = [Any]()
                 if error == nil {
                     if let data = data {
                         do {
-                            let JsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: [])
+                            let JsonDict = try JSONSerialization.jsonObject(with: data, options: [])
                             if let dictFromJSON = JsonDict as? [String:AnyObject]
                             {
                                 if let array = self?.parseData(dictFromJSON) {
-                                    resultArray.appendContentsOf(array)
+                                    resultArray.append(contentsOf: array)
                                 }
                                 
                             }
@@ -51,31 +51,28 @@ class ConnectionManager: NSObject {
                 if let completionHandler = completionHandler {
                     completionHandler(error,resultArray)
                 }
+                
+                
                 }.resume()
-            
-            
         }
     }
     
-    func gerImageFromServer(url : String?, completionHandler : (NSData?)->() ) {
-        guard let url = url else {
+    func gerImageFromServer(_ url : String?, completionHandler : @escaping (Data?)->() ) {
+        guard let url = url,let request = URL(string: url) else {
             return
         }
-        if let urlRequest = NSURL(string: url){
-            let session = NSURLSession.sharedSession()
-            session.dataTaskWithURL(urlRequest, completionHandler: { (data : NSData?, response : NSURLResponse?, error : NSError?) in
-                completionHandler(data)
-            }).resume()
-        }
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            completionHandler(data)
+            }.resume()
     }
     
-    func parseData(json : Dictionary<String,AnyObject>) -> Array<AnyObject> {
-        var array = Array<AnyObject>()
-        if let data = json["data"] as? NSDictionary {
+    func parseData(_ json : Dictionary<String,AnyObject>) -> Array<Any> {
+        var array = Array<Any>()
+        if let data = json["data"] as? Dictionary<String,AnyObject> {
             if let after = data["after"] as? String { self.afterToken = after }
-            if let children = data["children"] as? NSArray {
+            if let children = data["children"] as? Array<Dictionary<String,AnyObject>> {
                 for itemData in children {
-                    if let item = itemData["data"] as? NSDictionary {
+                    if let item = itemData["data"] as? Dictionary<String,AnyObject> {
                         array.append(item)
                     }
                 }
@@ -83,16 +80,22 @@ class ConnectionManager: NSObject {
         }
         return array
     }
+
     
     class func isConnectedToNetwork() -> Bool {
         var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        let defaultRouteReachability = withUnsafePointer(&zeroAddress) {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))
+        guard let defaultRouteReachability = withUnsafePointer(to: &zeroAddress, {
+            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+                SCNetworkReachabilityCreateWithAddress(nil, $0)
+            }
+        }) else {
+            
+            return false
         }
         var flags = SCNetworkReachabilityFlags()
-        if !SCNetworkReachabilityGetFlags(defaultRouteReachability!, &flags) {
+        if !SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
             return false
         }
         let isReachable = (flags.rawValue & UInt32(kSCNetworkFlagsReachable)) != 0

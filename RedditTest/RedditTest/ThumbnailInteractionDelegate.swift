@@ -9,5 +9,5 @@
 import Foundation
 
 @objc protocol ThumbnailInteractionDelegate {
-    func thumbnailTouched(model : Feed);
+    func thumbnailTouched(_ model : Feed);
 }

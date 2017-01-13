@@ -32,21 +32,21 @@ class TableViewController: BaseViewController,UITableViewDelegate,UITableViewDat
     
     // MARK: - Table View
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.dataList.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TableViewCell", forIndexPath: indexPath) as! TableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
         let object = dataList[indexPath.row]
         cell.setModel(object,delegate:self)
         return cell
     }
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let actualPosition = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - self.table.frame.size.height
-        if actualPosition > contentHeight && self.refreshControl.refreshing == false {
+        if actualPosition > contentHeight && self.refreshControl.isRefreshing == false {
             self.requestData()
         }
     }

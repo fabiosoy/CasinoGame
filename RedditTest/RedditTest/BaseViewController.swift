@@ -25,17 +25,17 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     
     //MARK: - View Controller
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refreshControl.backgroundColor = UIColor.purpleColor()
-        refreshControl.tintColor = UIColor.whiteColor()
-        refreshControl.addTarget(self, action: #selector(BaseViewController.renewData), forControlEvents:UIControlEvents.ValueChanged)
+        refreshControl.backgroundColor = UIColor.purple
+        refreshControl.tintColor = UIColor.white
+        refreshControl.addTarget(self, action: #selector(BaseViewController.renewData), for:UIControlEvents.valueChanged)
         fullDataList = feedManager.getStoredFeed()
         if selectedModel != nil { selectedModel = nil }
         else {
             if fullDataList.count > 0 {
                 dataList = Array<Feed>(fullDataList)
-                self.searchBar.placeholder = "Numbers of Articles ".stringByAppendingString(String(dataList.count))
+                self.searchBar.placeholder = "Numbers of Articles " + String(dataList.count)
                 self.reloadView()
             } else {
                 self.requestData()
@@ -47,21 +47,21 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
         feedManager.deleteAllData()
         fullDataList.removeAll()
         dataList.removeAll()
-        self.searchBar.placeholder = "Numbers of Articles ".stringByAppendingString("0")
+        self.searchBar.placeholder = "Numbers of Articles " + "0"
         self.reloadView()
         self.requestData()
     }
     
     // MARK: - Thumbnail Interaction Delegate
-    func thumbnailTouched(model: Feed) {
+    func thumbnailTouched(_ model: Feed) {
         selectedModel = model
-        self.performSegueWithIdentifier("showFullScreen", sender:self)
+        self.performSegue(withIdentifier: "showFullScreen", sender:self)
     }
     
     // MARK: - Segues
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showFullScreen" {
-            let controller = segue.destinationViewController as! FullScreenImageViewController
+            let controller = segue.destination as! FullScreenImageViewController
             controller.model = selectedModel
         }
     }
@@ -74,25 +74,25 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
             return
         }
         loadingData = true
-        if self.refreshControl.refreshing == false {
-            activityIndicatorView.hidden = false
+        if self.refreshControl.isRefreshing == false {
+            activityIndicatorView.isHidden = false
             activityIndicatorView.startAnimating()
         }
-        feedManager.getFeed { [weak self](error : NSError?, list : [Feed]) in
+        feedManager.getFeed { [weak self](error : Error?, list : [Feed]) in
             guard error == nil else {
                 return
             }
             if let selfInstance = self {
                 if list.count > 0 {
                     selfInstance.fullDataList.removeAll()
-                    selfInstance.fullDataList.appendContentsOf(list)
+                    selfInstance.fullDataList.append(contentsOf: list)
                     selfInstance.dataList = Array<Feed>(selfInstance.fullDataList)
                 }
-                dispatch_async(dispatch_get_main_queue(),{
+                DispatchQueue.main.async(execute: {
                     selfInstance.reloadView()
                     selfInstance.activityIndicatorView.stopAnimating()
                     selfInstance.loadingData = false
-                    selfInstance.searchBar.placeholder = "Numbers of Articles ".stringByAppendingString(String(list.count))
+                    selfInstance.searchBar.placeholder = "Numbers of Articles " + String(list.count)
                     selfInstance.refreshControl.endRefreshing()
                 })
             }
@@ -105,7 +105,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     
     // MARK: -  Search Bar Delegate
     
-    func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         guard text != "\n" else {
             searchBar.resignFirstResponder()
             return false
@@ -114,10 +114,10 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     }
     
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
         if searchText.characters.count > 0 {
-            let filteredArray = fullDataList.filter() { $0.tittle?.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil, locale: nil) != nil }
+            let filteredArray = fullDataList.filter() { $0.tittle?.range(of: searchText, options: NSString.CompareOptions.caseInsensitive, range: nil, locale: nil) != nil }
             dataList = Array<Feed>(filteredArray)
         } else {
             dataList = Array<Feed>(fullDataList)

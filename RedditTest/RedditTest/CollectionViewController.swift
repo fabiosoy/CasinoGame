@@ -27,31 +27,31 @@ class CollectionViewController: BaseViewController,UICollectionViewDelegate,UICo
     
     //MARK: - Collection View Delegate - Collection View DataSource
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataList.count
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CollectionViewCell", forIndexPath: indexPath) as! CollectionViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
         let object = dataList[indexPath.row]
         cell.setModel(object,delegate: self)
         return cell
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let object = dataList[indexPath.row]
-        let rect = object.tittle?.boundingRectWithSize(CGSizeMake(CollectionLayoutConfig.CELL_WIDTH,CollectionLayoutConfig.TEXT_MAX_HEIGHT), options:NSStringDrawingOptions.UsesLineFragmentOrigin, attributes:[NSFontAttributeName: UIFont.systemFontOfSize(CollectionLayoutConfig.FONT_SIZE)], context:nil)
+        let rect = object.tittle?.boundingRect(with: CGSize(width: CollectionLayoutConfig.CELL_WIDTH,height: CollectionLayoutConfig.TEXT_MAX_HEIGHT), options:NSStringDrawingOptions.usesLineFragmentOrigin, attributes:[NSFontAttributeName: UIFont.systemFont(ofSize: CollectionLayoutConfig.FONT_SIZE)], context:nil)
         return CGSize(width:CollectionLayoutConfig.CELL_WIDTH , height:CollectionLayoutConfig.CELL_MIN_HEIGHT + rect!.size.height )
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsetsZero
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.zero
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let actualPosition = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - self.collection.frame.size.height
-        if actualPosition > contentHeight && self.refreshControl.refreshing == false {
+        if actualPosition > contentHeight && self.refreshControl.isRefreshing == false {
             self.requestData()
         }
     }

@@ -13,31 +13,31 @@ class CoreDataManager: NSObject {
     
     override init() {
         super.init()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CoreDataManager.saveContext), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CoreDataManager.saveContext), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
     // MARK: - Core Data stack
-    lazy var applicationDocumentsDirectory: NSURL = {
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    lazy var applicationDocumentsDirectory: URL = {
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1]
     }()
     
     lazy var managedObjectModel: NSManagedObjectModel = {
-        let modelURL = NSBundle.mainBundle().URLForResource("RedditTest", withExtension: "momd")!
-        return NSManagedObjectModel(contentsOfURL: modelURL)!
+        let modelURL = Bundle.main.url(forResource: "RedditTest", withExtension: "momd")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
+        let url = self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
         } catch {
             // Report any error we got.
             var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason
+            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
+            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
             
             dict[NSUnderlyingErrorKey] = error as NSError
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
@@ -50,20 +50,20 @@ class CoreDataManager: NSObject {
     
     lazy var managedObjectContext: NSManagedObjectContext = {
         let coordinator = self.persistentStoreCoordinator
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
     
     // MARK: - Core Data support
     
-    func insertNewObject(json : Dictionary<String,AnyObject>) {
+    func insertNewObject(_ json : Dictionary<String,AnyObject>) {
         
         if let id = json["id"] as? String {
-            let fetchRequest = NSFetchRequest(entityName: "Feed")
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Feed")
             fetchRequest.predicate = NSPredicate(format: "id == %@",id)
             do {
-                let list = try managedObjectContext.executeFetchRequest(fetchRequest)
+                let list = try managedObjectContext.fetch(fetchRequest)
                 if list.count > 0 {
                     return
                 }
@@ -71,7 +71,7 @@ class CoreDataManager: NSObject {
                 print("Fetch failed: \(error.localizedDescription)")
             }
         }
-        if let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName("Feed", inManagedObjectContext: managedObjectContext) as? Feed {
+        if let newManagedObject = NSEntityDescription.insertNewObject(forEntityName: "Feed", into: managedObjectContext) as? Feed {
             newManagedObject.intiWithDictionary(json)
             do {
                 try managedObjectContext.save()
@@ -81,11 +81,11 @@ class CoreDataManager: NSObject {
         }
     }
     
-    func deleteObject(object : NSManagedObject?) {
+    func deleteObject(_ object : NSManagedObject?) {
         guard let object = object else {
             return
         }
-        managedObjectContext.deleteObject(object)
+        managedObjectContext.delete(object)
     }
     
     
@@ -106,12 +106,12 @@ class CoreDataManager: NSObject {
     }
     
     func getAllData() -> Array<Feed> {
-        let feedFetch = NSFetchRequest(entityName: "Feed")
+        let feedFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "Feed")
         feedFetch.sortDescriptors = [NSSortDescriptor(key: "time", ascending: true)]
         var list = Array<Feed>()
         do {
-            let fetchedFeed = try managedObjectContext.executeFetchRequest(feedFetch) as! [Feed]
-            list.appendContentsOf(fetchedFeed)
+            let fetchedFeed = try managedObjectContext.fetch(feedFetch) as! [Feed]
+            list.append(contentsOf: fetchedFeed)
             if list.count > Config.max_items {
                 list = Array<Feed>(list.prefix(Config.max_items))
             }
@@ -122,7 +122,7 @@ class CoreDataManager: NSObject {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
 }

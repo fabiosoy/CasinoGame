@@ -25,12 +25,12 @@ class FullScreenImageViewController: UIViewController {
         super.viewDidLoad()
         if let imageUrl = model?.imageFullUrl {
             activityView.startAnimating()
-            ConnectionManager.sharedInstance.gerImageFromServer(imageUrl) { [weak self] (imageData : NSData?) in
-                dispatch_async(dispatch_get_main_queue(),{
+            ConnectionManager.sharedInstance.gerImageFromServer(imageUrl) { [weak self] (imageData : Data?) in
+                DispatchQueue.main.async(execute: {
                     if let imageData = imageData {
                         if let image = UIImage(data: imageData) {
                             self?.imageView.image = image
-                            self?.saveButton.enabled = true
+                            self?.saveButton.isEnabled = true
                         } else { self?.imageView.image = UIImage(named:"imageBack") }
                     }
                     self?.activityView.stopAnimating()
@@ -41,27 +41,27 @@ class FullScreenImageViewController: UIViewController {
     }
     //MARK: - IBActions
 
-    @IBAction func backTouched(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func backTouched(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
         
     }
 
-    @IBAction func saveTouched(sender: AnyObject) {
+    @IBAction func saveTouched(_ sender: AnyObject) {
     
         UIImageWriteToSavedPhotosAlbum(self.imageView.image!, self,#selector(FullScreenImageViewController.image(_:didFinishSavingWithError:contextInfo:)) , nil)
     }
     
     //MARK: - Private Methods
 
-    func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafePointer<Void>) {
+    func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafeRawPointer) {
         if error == nil {
-            let ac = UIAlertController(title: "Saved!", message: "Your image has been saved", preferredStyle: .Alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            presentViewController(ac, animated: true, completion: nil)
+            let ac = UIAlertController(title: "Saved!", message: "Your image has been saved", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
         } else {
-            let ac = UIAlertController(title: "Save error", message: error?.localizedDescription, preferredStyle: .Alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            presentViewController(ac, animated: true, completion: nil)
+            let ac = UIAlertController(title: "Save error", message: error?.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
         }
     }
     

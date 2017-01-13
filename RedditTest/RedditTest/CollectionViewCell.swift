@@ -14,8 +14,8 @@ class CollectionViewCell: UICollectionViewCell {
     
     //MARK: - Private Properties
 
-    private weak var delegateCollectionViewCell : ThumbnailInteractionDelegate?
-    private var feedModel : Feed?
+    fileprivate weak var delegateCollectionViewCell : ThumbnailInteractionDelegate?
+    fileprivate var feedModel : Feed?
 
     //MARK: - IBOutlets
 
@@ -34,7 +34,7 @@ class CollectionViewCell: UICollectionViewCell {
         commentQtyLabel.text = ""
         thumbnailImageView.image = UIImage(named:"imageBack")
         self.layer.borderWidth = 1;
-        self.layer.borderColor = UIColor.whiteColor().CGColor
+        self.layer.borderColor = UIColor.white.cgColor
     }
 
     override func awakeFromNib() {
@@ -48,7 +48,7 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     
-    func setModel(model : Feed, delegate : ThumbnailInteractionDelegate) {
+    func setModel(_ model : Feed, delegate : ThumbnailInteractionDelegate) {
         feedModel = model
         delegateCollectionViewCell = delegate
         tittleLabel.text = model.tittle
@@ -56,12 +56,12 @@ class CollectionViewCell: UICollectionViewCell {
         commentQtyLabel.text = model.num_comments?.stringValue
         dateLabel.text = model.date?.timeAgoSinceDate()
         if let data = model.thumbnailData {
-            self.thumbnailImageView.image = UIImage(data: data)
+            self.thumbnailImageView.image = UIImage(data: data as Data)
         } else {
-            ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnail) { [weak self] (imageData : NSData?) in
+            ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnail) { [weak self] (imageData : Data?) in
                 if let imageData = imageData {
                     model.thumbnailData = imageData
-                    dispatch_async(dispatch_get_main_queue(),{
+                    DispatchQueue.main.async(execute: {
                         self?.thumbnailImageView.image = UIImage(data: imageData)
                     })
                 }
@@ -69,7 +69,7 @@ class CollectionViewCell: UICollectionViewCell {
         }
     }
 
-    @IBAction func thumbnailTouched(sender: AnyObject) {
+    @IBAction func thumbnailTouched(_ sender: AnyObject) {
         guard let delegate = delegateCollectionViewCell else { return }
         guard let model = feedModel else { return }
         delegate.thumbnailTouched(model)

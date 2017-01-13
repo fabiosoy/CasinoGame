@@ -16,12 +16,12 @@ extension Feed {
 
     @NSManaged var tittle: String?
     @NSManaged var author: String?
-    @NSManaged var date: NSDate?
+    @NSManaged var date: Date?
     @NSManaged var thumbnail: String?
     @NSManaged var num_comments: NSNumber?
     @NSManaged var imageFullUrl: String?
     @NSManaged var id: String?
-    @NSManaged var thumbnailData : NSData?
-    @NSManaged var time : NSDate?
+    @NSManaged var thumbnailData : Data?
+    @NSManaged var time : Date?
 
 }

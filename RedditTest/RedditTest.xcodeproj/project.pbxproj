@@ -22,7 +22,7 @@
 		E52C68D91D74A65400A39951 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52C68D71D74A65400A39951 /* Feed.swift */; };
 		E52C68DC1D74A79800A39951 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52C68DB1D74A79800A39951 /* CollectionViewController.swift */; };
 		E52C68DF1D74AB8800A39951 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52C68DE1D74AB8800A39951 /* TableViewCell.swift */; };
-		E52C68E21D74BCEC00A39951 /* NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52C68E11D74BCEC00A39951 /* NSDate.swift */; };
+		E52C68E21D74BCEC00A39951 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52C68E11D74BCEC00A39951 /* Date.swift */; };
 		E5651F9E1D750FB60038E51F /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5651F9D1D750FB60038E51F /* FullScreenImageViewController.swift */; };
 		E5B638891D75C074003A50C9 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B638881D75C074003A50C9 /* Config.swift */; };
 		E5B6388B1D75C122003A50C9 /* CollectionLayoutConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B6388A1D75C122003A50C9 /* CollectionLayoutConfig.swift */; };
@@ -48,7 +48,7 @@
 		E52C68D71D74A65400A39951 /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		E52C68DB1D74A79800A39951 /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		E52C68DE1D74AB8800A39951 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		E52C68E11D74BCEC00A39951 /* NSDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDate.swift; sourceTree = "<group>"; };
+		E52C68E11D74BCEC00A39951 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		E5651F9D1D750FB60038E51F /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
 		E5B638881D75C074003A50C9 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		E5B6388A1D75C122003A50C9 /* CollectionLayoutConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionLayoutConfig.swift; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 		E52C68E01D74BCA300A39951 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				E52C68E11D74BCEC00A39951 /* NSDate.swift */,
+				E52C68E11D74BCEC00A39951 /* Date.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -248,7 +248,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E52C68E21D74BCEC00A39951 /* NSDate.swift in Sources */,
+				E52C68E21D74BCEC00A39951 /* Date.swift in Sources */,
 				E52C68DC1D74A79800A39951 /* CollectionViewController.swift in Sources */,
 				E5D1A37E1D74E98100F2D767 /* CollectionViewCell.swift in Sources */,
 				E5223A8E1D751ADD00B09B25 /* ThumbnailInteractionDelegate.swift in Sources */,

@@ -43,7 +43,7 @@ class ConnectionManager: NSObject {
                                 }
                                 
                             }
-                        } catch let error as NSError {
+                        } catch  {
                             print(error)
                         }
                     }

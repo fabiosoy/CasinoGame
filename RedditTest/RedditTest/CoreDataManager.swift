@@ -67,7 +67,7 @@ class CoreDataManager: NSObject {
                 if list.count > 0 {
                     return
                 }
-            } catch let error as NSError {
+            } catch  {
                 print("Fetch failed: \(error.localizedDescription)")
             }
         }
@@ -75,7 +75,7 @@ class CoreDataManager: NSObject {
             newManagedObject.intiWithDictionary(json)
             do {
                 try managedObjectContext.save()
-            } catch let error as NSError {
+            } catch  {
                 print(error)
             }
         }

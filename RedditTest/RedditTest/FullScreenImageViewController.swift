@@ -53,7 +53,7 @@ class FullScreenImageViewController: UIViewController {
     
     //MARK: - Private Methods
 
-    func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafeRawPointer) {
+    func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo:UnsafeRawPointer) {
         if error == nil {
             let ac = UIAlertController(title: "Saved!", message: "Your image has been saved", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))

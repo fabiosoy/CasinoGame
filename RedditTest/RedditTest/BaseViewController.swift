@@ -42,18 +42,31 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
                 self.reloadView()
             } else {
                 self.feedModelView.requestData(reload: true, callBack: { 
+                    self.showLoadinViews(show: false)
                     self.reloadView()
                 })
             }
         }
     }
     
-    func renewData()  {
-        if self.refreshControl.isRefreshing == false {
-            activityIndicatorView.isHidden = false
-            activityIndicatorView.startAnimating()
+    func showLoadinViews(show : Bool)  {
+        if show {
+            if self.refreshControl.isRefreshing == false {
+                activityIndicatorView.isHidden = false
+                activityIndicatorView.startAnimating()
+            }
+        } else {
+            DispatchQueue.main.async(execute: {
+                self.activityIndicatorView.stopAnimating()
+                self.refreshControl.endRefreshing()
+            })
         }
+    }
+    
+    func renewData()  {
+        self.showLoadinViews(show: true)
         self.feedModelView.requestData(reload: true) {
+            self.showLoadinViews(show: false)
             self.reloadView()
         }
         self.searchBar.placeholder = "Numbers of Articles " + "0"
@@ -77,11 +90,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     // MARK: - Internal Methods
   
     func reloadView() {
-        DispatchQueue.main.async(execute: {
-            self.activityIndicatorView.stopAnimating()
-            self.searchBar.placeholder = "Numbers of Articles " + String(self.feedModelView.getElementsCount())
-            self.refreshControl.endRefreshing()
-        })
+        self.searchBar.placeholder = "Numbers of Articles " + String(self.feedModelView.getElementsCount())
     }
     
     // MARK: -  Search Bar Delegate

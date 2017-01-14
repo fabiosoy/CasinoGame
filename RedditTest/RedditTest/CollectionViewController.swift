@@ -55,7 +55,9 @@ class CollectionViewController: BaseViewController,UICollectionViewDelegate,UICo
         let actualPosition = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - self.collection.frame.size.height
         if actualPosition > contentHeight && self.refreshControl.isRefreshing == false {
-            self.feedModelView.requestData(reload: false, callBack: { 
+            self.showLoadinViews(show: false)
+            self.feedModelView.requestData(reload: false, callBack: {
+                self.showLoadinViews(show: true)
                 self.reloadView()
             })
         }

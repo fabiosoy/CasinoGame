@@ -22,24 +22,27 @@ class CollectionViewController: BaseViewController,UICollectionViewDelegate,UICo
     }
     
     override func reloadView() {
-        self.collection.reloadData()
+        DispatchQueue.main.async(execute: {
+            super.reloadView()
+            self.collection.reloadData()
+        })
     }
     
     //MARK: - Collection View Delegate - Collection View DataSource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataList.count
+        return self.feedModelView.getElementsCount()
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
-        let object = dataList[indexPath.row]
+        let object = self.feedModelView.getElementForRow(row: indexPath.row)
         cell.setModel(object,delegate: self)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let object = dataList[indexPath.row]
+        let object = self.feedModelView.getElementForRow(row: indexPath.row)
         let rect = object.tittle?.boundingRect(with: CGSize(width: CollectionLayoutConfig.CELL_WIDTH,height: CollectionLayoutConfig.TEXT_MAX_HEIGHT), options:.usesLineFragmentOrigin, attributes:[NSFontAttributeName: UIFont.systemFont(ofSize: CollectionLayoutConfig.FONT_SIZE)], context:nil)
         return CGSize(width:CollectionLayoutConfig.CELL_WIDTH , height:CollectionLayoutConfig.CELL_MIN_HEIGHT + rect!.size.height )
     }
@@ -52,7 +55,9 @@ class CollectionViewController: BaseViewController,UICollectionViewDelegate,UICo
         let actualPosition = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - self.collection.frame.size.height
         if actualPosition > contentHeight && self.refreshControl.isRefreshing == false {
-            self.requestData()
+            self.feedModelView.requestData(reload: false, callBack: { 
+                self.reloadView()
+            })
         }
     }
     

@@ -15,7 +15,7 @@ class CollectionViewCell: UICollectionViewCell {
     //MARK: - Private Properties
 
     fileprivate weak var delegateCollectionViewCell : ThumbnailInteractionDelegate?
-    fileprivate var feedModel : Feed?
+    fileprivate var feedModel : FeedDetailModelView?
 
     //MARK: - IBOutlets
 
@@ -48,24 +48,23 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     
-    func setModel(_ model : Feed, delegate : ThumbnailInteractionDelegate) {
+    func setModel(_ model : FeedDetailModelView, delegate : ThumbnailInteractionDelegate) {
         feedModel = model
         delegateCollectionViewCell = delegate
         tittleLabel.text = model.tittle
         authorLabel.text = model.author
-        commentQtyLabel.text = model.num_comments?.stringValue
-        dateLabel.text = model.date?.timeAgoSinceDate()
-        if let data = model.thumbnailData {
-            self.thumbnailImageView.image = UIImage(data: data as Data)
+        commentQtyLabel.text = model.num_comments
+        dateLabel.text = model.date
+        if let image = model.image {
+            self.thumbnailImageView.image = image
         } else {
-            ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnail) { [weak self] (imageData : Data?) in
-                if let imageData = imageData {
-                    model.thumbnailData = imageData
+            self.feedModel?.getImage(callBackClosure: { [weak self] (image : UIImage) in
+                if let selfInstance = self {
                     DispatchQueue.main.async(execute: {
-                        self?.thumbnailImageView.image = UIImage(data: imageData)
+                        selfInstance.thumbnailImageView.image = image
                     })
                 }
-            }
+            })
         }
     }
 

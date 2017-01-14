@@ -27,18 +27,21 @@ class TableViewController: BaseViewController,UITableViewDelegate,UITableViewDat
     }
     
     override func reloadView() {
-        self.table.reloadData()
+        DispatchQueue.main.async(execute: {
+            super.reloadView()
+            self.table.reloadData()
+        })
     }
     
     // MARK: - Table View
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.dataList.count
+        return self.feedModelView.getElementsCount()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as! TableViewCell
-        let object = dataList[indexPath.row]
+        let object = self.feedModelView.getElementForRow(row: indexPath.row)
         cell.setModel(object,delegate:self)
         return cell
     }
@@ -47,7 +50,9 @@ class TableViewController: BaseViewController,UITableViewDelegate,UITableViewDat
         let actualPosition = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - self.table.frame.size.height
         if actualPosition > contentHeight && self.refreshControl.isRefreshing == false {
-            self.requestData()
+            self.feedModelView.requestData(reload: false, callBack: { 
+                self.reloadView()
+            })
         }
     }
 

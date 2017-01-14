@@ -23,11 +23,14 @@
 		E52C68DC1D74A79800A39951 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52C68DB1D74A79800A39951 /* CollectionViewController.swift */; };
 		E52C68DF1D74AB8800A39951 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52C68DE1D74AB8800A39951 /* TableViewCell.swift */; };
 		E52C68E21D74BCEC00A39951 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52C68E11D74BCEC00A39951 /* Date.swift */; };
+		E548D8311E297FD2004C6FD8 /* FeedModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E548D8301E297FD2004C6FD8 /* FeedModelView.swift */; };
+		E548D8331E298056004C6FD8 /* FeedDetailModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E548D8321E298056004C6FD8 /* FeedDetailModelView.swift */; };
 		E5651F9E1D750FB60038E51F /* FullScreenImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5651F9D1D750FB60038E51F /* FullScreenImageViewController.swift */; };
 		E5B638891D75C074003A50C9 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B638881D75C074003A50C9 /* Config.swift */; };
 		E5B6388B1D75C122003A50C9 /* CollectionLayoutConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B6388A1D75C122003A50C9 /* CollectionLayoutConfig.swift */; };
 		E5B6388D1D75C215003A50C9 /* ScreenSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B6388C1D75C215003A50C9 /* ScreenSize.swift */; };
 		E5D1A37E1D74E98100F2D767 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D1A37D1D74E98100F2D767 /* CollectionViewCell.swift */; };
+		E5D1D11B1E2A7A330053D170 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5D1D11A1E2A7A330053D170 /* TabBarViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,11 +52,14 @@
 		E52C68DB1D74A79800A39951 /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		E52C68DE1D74AB8800A39951 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		E52C68E11D74BCEC00A39951 /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		E548D8301E297FD2004C6FD8 /* FeedModelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModelView.swift; sourceTree = "<group>"; };
+		E548D8321E298056004C6FD8 /* FeedDetailModelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedDetailModelView.swift; sourceTree = "<group>"; };
 		E5651F9D1D750FB60038E51F /* FullScreenImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenImageViewController.swift; sourceTree = "<group>"; };
 		E5B638881D75C074003A50C9 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		E5B6388A1D75C122003A50C9 /* CollectionLayoutConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionLayoutConfig.swift; sourceTree = "<group>"; };
 		E5B6388C1D75C215003A50C9 /* ScreenSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScreenSize.swift; sourceTree = "<group>"; };
 		E5D1A37D1D74E98100F2D767 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		E5D1D11A1E2A7A330053D170 /* TabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +99,7 @@
 				E52C68E01D74BCA300A39951 /* Extensions */,
 				E5D1A37C1D74E96100F2D767 /* UICollectionViewCell */,
 				E52C68DD1D74AB6500A39951 /* UITableViewCells */,
+				E548D82F1E297FAB004C6FD8 /* ModelViews */,
 				E52C68DA1D74A67C00A39951 /* Models */,
 				E52C68BB1D74A59100A39951 /* AppDelegate.swift */,
 				E52C68BF1D74A59100A39951 /* Main.storyboard */,
@@ -129,6 +136,15 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		E548D82F1E297FAB004C6FD8 /* ModelViews */ = {
+			isa = PBXGroup;
+			children = (
+				E548D8301E297FD2004C6FD8 /* FeedModelView.swift */,
+				E548D8321E298056004C6FD8 /* FeedDetailModelView.swift */,
+			);
+			name = ModelViews;
+			sourceTree = "<group>";
+		};
 		E5B638841D75B307003A50C9 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,6 +160,7 @@
 				E52C68BD1D74A59100A39951 /* TableViewController.swift */,
 				E52C68DB1D74A79800A39951 /* CollectionViewController.swift */,
 				E5651F9D1D750FB60038E51F /* FullScreenImageViewController.swift */,
+				E5D1D11A1E2A7A330053D170 /* TabBarViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -251,12 +268,15 @@
 				E52C68E21D74BCEC00A39951 /* Date.swift in Sources */,
 				E52C68DC1D74A79800A39951 /* CollectionViewController.swift in Sources */,
 				E5D1A37E1D74E98100F2D767 /* CollectionViewCell.swift in Sources */,
+				E548D8331E298056004C6FD8 /* FeedDetailModelView.swift in Sources */,
+				E5D1D11B1E2A7A330053D170 /* TabBarViewController.swift in Sources */,
 				E5223A8E1D751ADD00B09B25 /* ThumbnailInteractionDelegate.swift in Sources */,
 				E52C68D41D74A60500A39951 /* FeedManager.swift in Sources */,
 				E52C68D91D74A65400A39951 /* Feed.swift in Sources */,
 				E5B6388D1D75C215003A50C9 /* ScreenSize.swift in Sources */,
 				E5223A8C1D75191500B09B25 /* BaseViewController.swift in Sources */,
 				E52C68D51D74A60500A39951 /* ConnectionManager.swift in Sources */,
+				E548D8311E297FD2004C6FD8 /* FeedModelView.swift in Sources */,
 				E52C68D81D74A65400A39951 /* Feed+CoreDataProperties.swift in Sources */,
 				E52C68DF1D74AB8800A39951 /* TableViewCell.swift in Sources */,
 				E52C68C41D74A59100A39951 /* RedditTest.xcdatamodeld in Sources */,

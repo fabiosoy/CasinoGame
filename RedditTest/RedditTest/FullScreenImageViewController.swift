@@ -12,7 +12,7 @@ class FullScreenImageViewController: UIViewController {
     
     //MARK: - Properties
     
-    var model : Feed?
+    var model : FeedDetailModelView?
 
     //MARK: - IBOutlets
 

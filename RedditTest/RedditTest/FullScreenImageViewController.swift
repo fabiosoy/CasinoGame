@@ -12,7 +12,7 @@ class FullScreenImageViewController: UIViewController {
     
     //MARK: - Properties
     
-    var model : FeedDetailModelView?
+    var modelDetailView : FeedDetailModelView?
 
     //MARK: - IBOutlets
 
@@ -23,9 +23,9 @@ class FullScreenImageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if model?.imageFullUrl != nil {
+        if modelDetailView?.imageFullUrl != nil {
             activityView.startAnimating()
-            model?.getFullImage(callBackClosure: { [weak self] (image : UIImage?) in
+            modelDetailView?.getFullImage(callBackClosure: { [weak self] (image : UIImage?) in
                 DispatchQueue.main.async(execute: {
                     if let image = image {
                         self?.imageView.image = image

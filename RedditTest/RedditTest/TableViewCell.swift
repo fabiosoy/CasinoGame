@@ -14,7 +14,7 @@ class TableViewCell: UITableViewCell {
     //MARK: - Private Properties
     
     fileprivate weak var delegateTableViewCell : ThumbnailInteractionDelegate?
-    fileprivate var feedModel : FeedDetailModelView?
+    fileprivate var feedDetailModel : FeedDetailModelView?
 
     //MARK: - IBOutlets
   
@@ -47,7 +47,7 @@ class TableViewCell: UITableViewCell {
     }
     
     func setModel(_ model : FeedDetailModelView, delegate : ThumbnailInteractionDelegate) {
-        feedModel = model
+        feedDetailModel = model
         delegateTableViewCell = delegate
         tittleLabel.text = model.tittle
         authorLabel.text = model.author
@@ -57,7 +57,7 @@ class TableViewCell: UITableViewCell {
             self.thumbnailImageView.image = image
         } else {
             
-            self.feedModel?.getImage(callBackClosure: { [weak self] (image : UIImage) in
+            self.feedDetailModel?.getImage(callBackClosure: { [weak self] (image : UIImage) in
                 if let selfInstance = self {
                     DispatchQueue.main.async(execute: {
                         selfInstance.thumbnailImageView.image = image
@@ -69,7 +69,7 @@ class TableViewCell: UITableViewCell {
     
     @IBAction func thumbnailTouched(_ sender: AnyObject) {
         guard let delegate = delegateTableViewCell else { return }
-        guard let model = feedModel else { return }
+        guard let model = feedDetailModel else { return }
         delegate.thumbnailTouched(model)
     }
     

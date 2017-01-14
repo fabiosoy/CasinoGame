@@ -11,12 +11,16 @@ import UIKit
 
 
 class FeedModelView {
-    var dataList = Array<FeedDetailModelView>()
-    var fullDataList = Array<FeedDetailModelView>()
-    let feedManager = FeedManager.sharedInstance
-    var loadingData = false
-    
+    //MARK: - Private Properties
+
+    private var dataList = Array<FeedDetailModelView>()
+    private var fullDataList = Array<FeedDetailModelView>()
+    private let feedManager = FeedManager.sharedInstance
+    private var loadingData = false
     private var privateSearchText = ""
+    private var updateViewCallBack : (()->())?
+    
+    //MARK: - Public Properties
     
     var searchText : String {
         set{
@@ -33,19 +37,21 @@ class FeedModelView {
         }
     }
     
-    var updateViewCallBack : (()->())?
-    
     var numbersOfArticlesText : String {
         get {
             return "Numbers of Articles " + String(dataList.count)
         }
     }
     
+    //MARK: - Init
+
     init() {
         searchText = ""
         self.loadStoredFeed()
     }
     
+    //MARK: - Methods
+
     func requestData(reload : Bool,callBack : (()->())? ) -> Bool {
         guard (loadingData == false &&
             fullDataList.count < Config.max_items &&
@@ -70,6 +76,8 @@ class FeedModelView {
         return dataList[row]
     }
     
+    //MARK: - Private Methods
+
     fileprivate func proccesListModel(list : Array<Feed>) {
         for feed in list {
             let feedDMV = FeedDetailModelView(newFeed:feed)

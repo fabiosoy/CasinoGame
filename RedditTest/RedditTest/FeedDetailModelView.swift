@@ -12,11 +12,11 @@ import UIKit
 
 class FeedDetailModelView : NSObject {
     
-    fileprivate let model : Feed
-    
-    init(newFeed : Feed) {
-        self.model = newFeed
-    }
+    //MARK: - Private Properties
+
+    private let model : Feed
+
+    //MARK: - Public Properties
     
     var tittle : String? {
         get{
@@ -57,6 +57,14 @@ class FeedDetailModelView : NSObject {
         }
     }
 
+    //MARK: - Init
+    
+    init(newFeed : Feed) {
+        self.model = newFeed
+    }
+    
+    
+    //MARK: - Public Methods
     
     func getImage(callBackClosure : @escaping (UIImage)->())  {
         ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnail) { [weak self] (imageData : Data?) in

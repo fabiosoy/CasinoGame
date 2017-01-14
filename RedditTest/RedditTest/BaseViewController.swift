@@ -12,7 +12,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     
     //MARK: - Private Properties
     var refreshControl = UIRefreshControl()
-    var selectedModel : FeedDetailModelView?
+    var selectedModelView : FeedDetailModelView?
     var feedModelView : FeedModelView!
     
     
@@ -35,7 +35,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
         refreshControl.backgroundColor = UIColor.purple
         refreshControl.tintColor = UIColor.white
         refreshControl.addTarget(self, action: #selector(BaseViewController.renewData), for:UIControlEvents.valueChanged)
-        if selectedModel != nil { selectedModel = nil }
+        if selectedModelView != nil { selectedModelView = nil }
         else {
             if self.feedModelView.getElementsCount() > 0 {
                 self.searchBar.placeholder = self.feedModelView.numbersOfArticlesText
@@ -74,8 +74,8 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     }
     
     // MARK: - Thumbnail Interaction Delegate
-    func thumbnailTouched(_ model: FeedDetailModelView) {
-        selectedModel = model
+    func thumbnailTouched(_ modelView: FeedDetailModelView) {
+        selectedModelView = modelView
         self.performSegue(withIdentifier: "showFullScreen", sender:self)
     }
     
@@ -83,7 +83,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showFullScreen" {
             let controller = segue.destination as! FullScreenImageViewController
-            controller.model = selectedModel
+            controller.modelDetailView = selectedModelView
         }
     }
     

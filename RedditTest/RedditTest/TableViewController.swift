@@ -50,11 +50,12 @@ class TableViewController: BaseViewController,UITableViewDelegate,UITableViewDat
         let actualPosition = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - self.table.frame.size.height
         if actualPosition > contentHeight && self.refreshControl.isRefreshing == false {
-            self.showLoadinViews(show: true)
-            self.feedModelView.requestData(reload: false, callBack: {
+            if self.feedModelView.requestData(reload: false, callBack: {
                 self.showLoadinViews(show: false)
                 self.reloadView()
-            })
+            }) {
+                self.showLoadinViews(show: true)
+            }
         }
     }
 

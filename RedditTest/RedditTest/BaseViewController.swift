@@ -41,7 +41,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
                 self.searchBar.placeholder = "Numbers of Articles " + String(self.feedModelView.getElementsCount())
                 self.reloadView()
             } else {
-                self.feedModelView.requestData(reload: true, callBack: { 
+                _ = self.feedModelView.requestData(reload: true, callBack: {
                     self.showLoadinViews(show: false)
                     self.reloadView()
                 })
@@ -65,7 +65,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     
     func renewData()  {
         self.showLoadinViews(show: true)
-        self.feedModelView.requestData(reload: true) {
+        _ = self.feedModelView.requestData(reload: true) {
             self.showLoadinViews(show: false)
             self.reloadView()
         }

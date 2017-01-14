@@ -40,11 +40,11 @@ class FeedModelView {
         self.loadStoredFeed()
     }
     
-    func requestData(reload : Bool,callBack : (()->())? ) {
-        guard loadingData == false &&
+    func requestData(reload : Bool,callBack : (()->())? ) -> Bool {
+        guard (loadingData == false &&
             fullDataList.count < Config.max_items &&
-            searchText.characters.count == 0 else {
-                return
+            searchText.characters.count == 0 ) || reload == true else {
+                return false
         }
         self.updateViewCallBack = callBack
         if reload {
@@ -53,6 +53,7 @@ class FeedModelView {
             dataList.removeAll()
         }
         self.requestData()
+        return true
     }
     
     func getElementsCount() -> Int {

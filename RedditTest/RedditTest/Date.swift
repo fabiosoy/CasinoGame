@@ -14,7 +14,10 @@ extension Date {
     func timeAgoSinceDate() -> String {
         let calendar = Calendar.current
         let now = Date()
-        let earliest = (now as NSDate).earlierDate(self)
+        var earliest = now
+        if self.timeIntervalSince1970 < earliest.timeIntervalSince1970 {
+            earliest = self
+        }
         let latest = (earliest == now) ? self : now
         let components:DateComponents = (calendar as NSCalendar).components([NSCalendar.Unit.minute , NSCalendar.Unit.hour , NSCalendar.Unit.day , NSCalendar.Unit.weekOfYear , NSCalendar.Unit.month , NSCalendar.Unit.year , NSCalendar.Unit.second], from: earliest, to: latest, options: NSCalendar.Options())
         guard let year = components.year, let month = components.month, let weekOfYear = components.weekOfYear,let day = components.day,let hour = components.hour,let minute = components.minute, let second = components.second else {

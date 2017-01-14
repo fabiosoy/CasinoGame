@@ -23,21 +23,20 @@ class FullScreenImageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let imageUrl = model?.imageFullUrl {
+        if model?.imageFullUrl != nil {
             activityView.startAnimating()
-            ConnectionManager.sharedInstance.gerImageFromServer(imageUrl) { [weak self] (imageData : Data?) in
+            model?.getFullImage(callBackClosure: { [weak self] (image : UIImage?) in
                 DispatchQueue.main.async(execute: {
-                    if let imageData = imageData {
-                        if let image = UIImage(data: imageData) {
-                            self?.imageView.image = image
-                            self?.saveButton.isEnabled = true
-                        } else { self?.imageView.image = UIImage(named:"imageBack") }
+                    if let image = image {
+                        self?.imageView.image = image
+                        self?.saveButton.isEnabled = true
+                    } else {
+                        self?.imageView.image = UIImage(named:"imageBack")
                     }
                     self?.activityView.stopAnimating()
                 })
-            }
+            })
         } else { self.imageView.image = UIImage(named:"imageBack")}
-
     }
     //MARK: - IBActions
 

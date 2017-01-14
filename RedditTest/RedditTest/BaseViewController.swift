@@ -14,7 +14,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     var refreshControl = UIRefreshControl()
     var selectedModel : FeedDetailModelView?
     var feedModelView : FeedModelView!
-
+    
     
     //MARK: - IBOutlets
 
@@ -38,7 +38,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
         if selectedModel != nil { selectedModel = nil }
         else {
             if self.feedModelView.getElementsCount() > 0 {
-                self.searchBar.placeholder = "Numbers of Articles " + String(self.feedModelView.getElementsCount())
+                self.searchBar.placeholder = self.feedModelView.numbersOfArticlesText
                 self.reloadView()
             } else {
                 _ = self.feedModelView.requestData(reload: true, callBack: {
@@ -69,7 +69,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
             self.showLoadinViews(show: false)
             self.reloadView()
         }
-        self.searchBar.placeholder = "Numbers of Articles " + "0"
+        self.searchBar.placeholder = self.feedModelView.numbersOfArticlesText
         self.reloadView()
     }
     
@@ -90,25 +90,20 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     // MARK: - Internal Methods
   
     func reloadView() {
-        self.searchBar.placeholder = "Numbers of Articles " + String(self.feedModelView.getElementsCount())
+        self.searchBar.placeholder = self.feedModelView.numbersOfArticlesText
     }
     
     // MARK: -  Search Bar Delegate
-    
-    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        guard text != "\n" else {
-            searchBar.resignFirstResponder()
-            return false
-        }
-        return true
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
     }
-    
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
     {
         self.feedModelView.searchText = searchText
         self.reloadView()
     }
+    
+    
     
 
 }

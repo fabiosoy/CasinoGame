@@ -35,6 +35,12 @@ class FeedModelView {
     
     var updateViewCallBack : (()->())?
     
+    var numbersOfArticlesText : String {
+        get {
+            return "Numbers of Articles " + String(dataList.count)
+        }
+    }
+    
     init() {
         searchText = ""
         self.loadStoredFeed()

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class FeedDetailModelView : NSObject {
+class FeedItemModelView : NSObject {
     
     //MARK: - Private Properties
 

@@ -60,11 +60,9 @@ class ConnectionManager: NSObject {
     func verifyUrl (urlString: String?) -> Bool {
         //Check for nil
         if let urlString = urlString {
-            // create NSURL instance
-            if let url = URL(string: urlString) {
-                // check if your application can open the NSURL instance
-                return UIApplication.shared.canOpenURL(url)
-            }
+            let urlRegEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+            let urlTest = NSPredicate(format:"SELF MATCHES %@", urlRegEx)
+            return urlTest.evaluate(with: urlString)
         }
         return false
     }

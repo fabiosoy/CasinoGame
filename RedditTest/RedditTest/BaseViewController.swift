@@ -12,24 +12,20 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     
     //MARK: - Private Properties
     var refreshControl = UIRefreshControl()
-    var selectedModelView : FeedDetailModelView?
-    var feedModelView : FeedModelView!
+    var selectedModelView : FeedItemModelView?
     let showFullScreen = "showFullScreen"
-    
+    var feedModelView : FeedModelView {
+        get{
+            return (self.tabBarController as! TabBarViewController).feedModelView
+        }
+    }
+
     //MARK: - IBOutlets
 
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var searchBar: UISearchBar!
     
     //MARK: - View Controller
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let tabBarController = self.tabBarController as? TabBarViewController {
-            self.feedModelView = tabBarController.feedModelView
-        }
-    }
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshControl.backgroundColor = UIColor.purple
@@ -49,6 +45,23 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
                 } catch  {
                     print(error)
                 }
+            }
+        }
+    }
+    
+    func getMoreData()  {
+        do {
+            self.showLoadinViews(show: true)
+            try self.feedModelView.requestData(reload: false, callBack: {
+                self.showLoadinViews(show: false)
+                self.refreshView()
+            })
+        } catch  {
+            switch error {
+            case RequestDataErrors.isLoading:
+                print(error)
+            default:
+                self.showLoadinViews(show: false)
             }
         }
     }
@@ -77,7 +90,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     }
     
     // MARK: - Thumbnail Interaction Delegate
-    func thumbnailTouched(_ modelView: FeedDetailModelView) {
+    func thumbnailTouched(_ modelView: FeedItemModelView) {
         selectedModelView = modelView
         self.performSegue(withIdentifier: showFullScreen, sender:self)
     }
@@ -85,7 +98,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     // MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let controller = segue.destination as? FullScreenImageViewController {
-            controller.modelDetailView = selectedModelView
+            controller.feedItemModelView = selectedModelView
         }
     }
     

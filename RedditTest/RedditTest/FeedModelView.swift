@@ -21,8 +21,8 @@ enum RequestDataErrors: Error {
 class FeedModelView {
     //MARK: - Private Properties
 
-    private var dataList = Array<FeedDetailModelView>()
-    private var fullDataList = Array<FeedDetailModelView>()
+    private var dataList = Array<FeedItemModelView>()
+    private var fullDataList = Array<FeedItemModelView>()
     private let feedManager = FeedManager.sharedInstance
     private var loadingData = false
     private var privateSearchText = ""
@@ -35,9 +35,9 @@ class FeedModelView {
             privateSearchText = newValue
             if newValue.characters.count > 0 {
                 let filteredArray = fullDataList.filter() { $0.tittle?.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil }
-                dataList = Array<FeedDetailModelView>(filteredArray)
+                dataList = Array<FeedItemModelView>(filteredArray)
             } else {
-                dataList = Array<FeedDetailModelView>(fullDataList)
+                dataList = Array<FeedItemModelView>(fullDataList)
             }
         }
         get{
@@ -88,7 +88,7 @@ class FeedModelView {
         return dataList.count
     }
     
-    func getElementForRow(row : Int) ->  FeedDetailModelView {
+    func getElementForRow(row : Int) ->  FeedItemModelView {
         return dataList[row]
     }
     
@@ -96,9 +96,9 @@ class FeedModelView {
 
     fileprivate func proccesListModel(list : Array<Feed>) {
         for feed in list {
-            let feedDetailModelView = FeedDetailModelView(newFeed:feed)
-            fullDataList.append(feedDetailModelView)
-            dataList.append(feedDetailModelView)
+            let feedItemModelView = FeedItemModelView(newFeed:feed)
+            fullDataList.append(feedItemModelView)
+            dataList.append(feedItemModelView)
         }
     }
     

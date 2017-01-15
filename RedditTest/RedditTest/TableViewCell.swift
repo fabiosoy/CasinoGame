@@ -23,6 +23,7 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var commentQtyLabel: UILabel!
     @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
 
     //MARK: - Cell
 
@@ -32,6 +33,7 @@ class TableViewCell: UITableViewCell {
         dateLabel.text = ""
         commentQtyLabel.text = ""
         thumbnailImageView.image = UIImage(named:"imageBack")
+        self.activityView.stopAnimating()
         self.selectionStyle = .none
         self.selectedBackgroundView = nil
     }
@@ -56,11 +58,14 @@ class TableViewCell: UITableViewCell {
         if let image = model.image {
             self.thumbnailImageView.image = image
         } else {
-            
-            self.feedDetailModel?.getImage(callBackClosure: { [weak self] (image : UIImage) in
+            self.activityView.startAnimating()
+            self.feedDetailModel?.getImage(callBackClosure: { [weak self] (image : UIImage?) in
                 if let selfInstance = self {
                     DispatchQueue.main.async(execute: {
-                        selfInstance.thumbnailImageView.image = image
+                        if let image = image {
+                            selfInstance.thumbnailImageView.image = image
+                        }
+                        selfInstance.activityView.stopAnimating()
                     })
                 }
             })

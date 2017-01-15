@@ -26,9 +26,9 @@ class TableViewController: BaseViewController,UITableViewDelegate,UITableViewDat
         self.table.addSubview(self.refreshControl)
     }
     
-    override func reloadView() {
+    override func refreshView() {
         DispatchQueue.main.async(execute: {
-            super.reloadView()
+            super.refreshView()
             self.table.reloadData()
         })
     }
@@ -46,13 +46,14 @@ class TableViewController: BaseViewController,UITableViewDelegate,UITableViewDat
         return cell
     }
 
+    // Method for managing the pagination and request more data when it is in the bottom.
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let actualPosition = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - self.table.frame.size.height
         if actualPosition > contentHeight && self.refreshControl.isRefreshing == false {
             if self.feedModelView.requestData(reload: false, callBack: {
                 self.showLoadinViews(show: false)
-                self.reloadView()
+                self.refreshView()
             }) {
                 self.showLoadinViews(show: true)
             }

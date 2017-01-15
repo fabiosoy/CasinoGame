@@ -21,9 +21,9 @@ class CollectionViewController: BaseViewController,UICollectionViewDelegate,UICo
         self.collection.addSubview(self.refreshControl)
     }
     
-    override func reloadView() {
+    override func refreshView() {
         DispatchQueue.main.async(execute: {
-            super.reloadView()
+            super.refreshView()
             self.collection.reloadData()
         })
     }
@@ -51,13 +51,14 @@ class CollectionViewController: BaseViewController,UICollectionViewDelegate,UICo
         return UIEdgeInsets.zero
     }
     
+    // Method for managing the pagination and request more data when it is in the bottom.
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let actualPosition = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height - self.collection.frame.size.height
         if actualPosition > contentHeight && self.refreshControl.isRefreshing == false {
             if self.feedModelView.requestData(reload: false, callBack: {
                 self.showLoadinViews(show: false)
-                self.reloadView()
+                self.refreshView()
             }) {
                 self.showLoadinViews(show: true)
             }

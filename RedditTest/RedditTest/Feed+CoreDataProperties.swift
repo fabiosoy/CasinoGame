@@ -20,6 +20,7 @@ extension Feed {
     @NSManaged var thumbnail: String?
     @NSManaged var num_comments: NSNumber?
     @NSManaged var imageFullUrl: String?
+    @NSManaged var imageFullData : Data?
     @NSManaged var id: String?
     @NSManaged var thumbnailData : Data?
     @NSManaged var time : Date?

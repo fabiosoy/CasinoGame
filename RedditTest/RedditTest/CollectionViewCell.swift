@@ -24,6 +24,7 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var commentQtyLabel: UILabel!
     @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var activityView: UIActivityIndicatorView!
     
     //MARK: - Cell
 
@@ -33,6 +34,7 @@ class CollectionViewCell: UICollectionViewCell {
         dateLabel.text = ""
         commentQtyLabel.text = ""
         thumbnailImageView.image = UIImage(named:"imageBack")
+        activityView.stopAnimating()
         self.layer.borderWidth = 1;
         self.layer.borderColor = UIColor.white.cgColor
     }
@@ -58,10 +60,14 @@ class CollectionViewCell: UICollectionViewCell {
         if let image = model.image {
             self.thumbnailImageView.image = image
         } else {
-            self.feedDetailModel?.getImage(callBackClosure: { [weak self] (image : UIImage) in
+            activityView.startAnimating()
+            self.feedDetailModel?.getImage(callBackClosure: { [weak self] (image : UIImage?) in
                 if let selfInstance = self {
                     DispatchQueue.main.async(execute: {
-                        selfInstance.thumbnailImageView.image = image
+                        if let image = image {
+                            selfInstance.thumbnailImageView.image = image
+                        }
+                        selfInstance.activityView.stopAnimating()
                     })
                 }
             })

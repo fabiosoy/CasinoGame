@@ -14,7 +14,7 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
     var refreshControl = UIRefreshControl()
     var selectedModelView : FeedDetailModelView?
     var feedModelView : FeedModelView!
-    
+    let showFullScreen = "showFullScreen"
     
     //MARK: - IBOutlets
 
@@ -34,73 +34,71 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
         super.viewWillAppear(animated)
         refreshControl.backgroundColor = UIColor.purple
         refreshControl.tintColor = UIColor.white
-        refreshControl.addTarget(self, action: #selector(BaseViewController.renewData), for:UIControlEvents.valueChanged)
+        refreshControl.addTarget(self, action: #selector(BaseViewController.refreshData), for:UIControlEvents.valueChanged)
         if selectedModelView != nil { selectedModelView = nil }
         else {
             if self.feedModelView.getElementsCount() > 0 {
                 self.searchBar.placeholder = self.feedModelView.numbersOfArticlesText
-                self.reloadView()
+                self.refreshView()
             } else {
                 _ = self.feedModelView.requestData(reload: true, callBack: {
                     self.showLoadinViews(show: false)
-                    self.reloadView()
+                    self.refreshView()
                 })
             }
         }
     }
     
-    func showLoadinViews(show : Bool)  {
-        if show {
-            if self.refreshControl.isRefreshing == false {
-                activityIndicatorView.isHidden = false
-                activityIndicatorView.startAnimating()
-            }
-        } else {
-            DispatchQueue.main.async(execute: {
-                self.activityIndicatorView.stopAnimating()
-                self.refreshControl.endRefreshing()
-            })
-        }
-    }
-    
-    func renewData()  {
+    func refreshData()  {
         self.showLoadinViews(show: true)
         _ = self.feedModelView.requestData(reload: true) {
             self.showLoadinViews(show: false)
-            self.reloadView()
+            self.refreshView()
         }
         self.searchBar.placeholder = self.feedModelView.numbersOfArticlesText
-        self.reloadView()
+        self.refreshView()
     }
     
     // MARK: - Thumbnail Interaction Delegate
     func thumbnailTouched(_ modelView: FeedDetailModelView) {
         selectedModelView = modelView
-        self.performSegue(withIdentifier: "showFullScreen", sender:self)
+        self.performSegue(withIdentifier: showFullScreen, sender:self)
     }
     
     // MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showFullScreen" {
-            let controller = segue.destination as! FullScreenImageViewController
+        if let controller = segue.destination as? FullScreenImageViewController {
             controller.modelDetailView = selectedModelView
         }
     }
     
     // MARK: - Internal Methods
   
-    func reloadView() {
+    func refreshView() {
         self.searchBar.placeholder = self.feedModelView.numbersOfArticlesText
+    }
+    
+    func showLoadinViews(show : Bool)  {
+        DispatchQueue.main.async(execute: {
+            if show {
+                if self.refreshControl.isRefreshing == false {
+                    self.activityIndicatorView.isHidden = false
+                    self.activityIndicatorView.startAnimating()
+                }
+            } else {
+                self.activityIndicatorView.stopAnimating()
+                self.refreshControl.endRefreshing()
+            }
+        })
     }
     
     // MARK: -  Search Bar Delegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
     }
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
-    {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.feedModelView.searchText = searchText
-        self.reloadView()
+        self.refreshView()
     }
     
     

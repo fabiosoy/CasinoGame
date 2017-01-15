@@ -51,9 +51,12 @@ class FeedDetailModelView : NSObject {
         }
     }
 
-    var imageFullUrl : String? {
+    var imageFull : UIImage? {
         get{
-            return model.imageFullUrl
+            if let data = model.imageFullData {
+                return UIImage(data: data as Data)
+            }
+            return nil
         }
     }
 
@@ -66,13 +69,11 @@ class FeedDetailModelView : NSObject {
     
     //MARK: - Public Methods
     
-    func getImage(callBackClosure : @escaping (UIImage)->())  {
+    func getImage(callBackClosure : @escaping (UIImage?)->())  {
         ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnail) { [weak self] (imageData : Data?) in
             if let imageData = imageData {
                 self?.model.thumbnailData = imageData
-                if let image = UIImage(data: imageData) {
-                    callBackClosure(image)
-                }
+                callBackClosure(UIImage(data: imageData))
             }
         }
     }
@@ -80,7 +81,7 @@ class FeedDetailModelView : NSObject {
     func getFullImage(callBackClosure : @escaping (UIImage?)->())  {
         ConnectionManager.sharedInstance.gerImageFromServer(model.imageFullUrl) { [weak self] (imageData : Data?) in
             if let imageData = imageData {
-                self?.model.thumbnailData = imageData
+                self?.model.imageFullData = imageData
                 callBackClosure(UIImage(data: imageData))
             }
         }

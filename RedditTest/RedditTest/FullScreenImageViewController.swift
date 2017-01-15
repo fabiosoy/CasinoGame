@@ -29,15 +29,19 @@ class FullScreenImageViewController: UIViewController {
             self.imageView.image = image
         } else {
             self.activityView.startAnimating()
-            feedItemModelView?.getFullImage(callBackClosure: { [weak self] (image : UIImage?) in
-                DispatchQueue.main.async(execute: {
-                    if let image = image {
-                        self?.imageView.image = image
-                        self?.saveButton.isEnabled = true
-                    }
-                    self?.activityView.stopAnimating()
+            do {
+                try feedItemModelView?.getFullImage(callBackClosure: { [weak self] (image : UIImage?) in
+                    DispatchQueue.main.async(execute: {
+                        if let image = image {
+                            self?.imageView.image = image
+                            self?.saveButton.isEnabled = true
+                        }
+                        self?.activityView.stopAnimating()
+                    })
                 })
-            })
+            } catch {
+                self.activityView.stopAnimating()
+            }
         }
     }
     //MARK: - IBActions

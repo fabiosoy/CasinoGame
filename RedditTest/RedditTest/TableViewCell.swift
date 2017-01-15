@@ -59,16 +59,20 @@ class TableViewCell: UITableViewCell {
             self.thumbnailImageView.image = image
         } else {
             self.activityView.startAnimating()
-            self.feedItemModelView?.getImage(callBackClosure: { [weak self] (image : UIImage?) in
-                if let selfInstance = self {
-                    DispatchQueue.main.async(execute: {
-                        if let image = image {
-                            selfInstance.thumbnailImageView.image = image
-                        }
-                        selfInstance.activityView.stopAnimating()
-                    })
-                }
-            })
+            do {
+                try self.feedItemModelView?.getImage(callBackClosure: { [weak self] (image : UIImage?) in
+                    if let selfInstance = self {
+                        DispatchQueue.main.async(execute: {
+                            if let image = image {
+                                selfInstance.thumbnailImageView.image = image
+                            }
+                            selfInstance.activityView.stopAnimating()
+                        })
+                    }
+                })
+            } catch  {
+                self.activityView.stopAnimating()
+            }
         }
     }
     

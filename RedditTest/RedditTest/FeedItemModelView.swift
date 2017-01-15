@@ -69,23 +69,31 @@ class FeedItemModelView : NSObject {
     
     //MARK: - Public Methods
     
-    func getImage(callBackClosure : @escaping (UIImage?)->())  {
+    func getImage(callBackClosure : @escaping (UIImage?)->()) throws  {
+        guard ConnectionManager.isConnectedToNetwork() else {
+            throw RequestDataErrors.noConnection
+        }
         ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnailUrl) { [weak self] (imageData : Data?) in
             var image : UIImage?
             if let imageData = imageData {
                 self?.model.thumbnailData = imageData
                 image = UIImage(data: imageData)
+                FeedManager.sharedInstance.saveData()
             }
             callBackClosure(image)
         }
     }
     
-    func getFullImage(callBackClosure : @escaping (UIImage?)->())  {
+    func getFullImage(callBackClosure : @escaping (UIImage?)->()) throws {
+        guard ConnectionManager.isConnectedToNetwork() else {
+            throw RequestDataErrors.noConnection
+        }
         ConnectionManager.sharedInstance.gerImageFromServer(model.imageFullUrl) { [weak self] (imageData : Data?) in
             var image : UIImage?
             if let imageData = imageData {
                 self?.model.imageFullData = imageData
                 image = UIImage(data: imageData)
+                FeedManager.sharedInstance.saveData()
             }
             callBackClosure(image)
         }

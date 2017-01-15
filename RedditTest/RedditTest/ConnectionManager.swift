@@ -58,11 +58,12 @@ class ConnectionManager: NSObject {
     }
     
     func verifyUrl (urlString: String?) -> Bool {
-        //Check for nil
         if let urlString = urlString {
-            let urlRegEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
-            let urlTest = NSPredicate(format:"SELF MATCHES %@", urlRegEx)
-            return urlTest.evaluate(with: urlString)
+            let candidateURL = URL(string: urlString)
+            if let candidateURL = candidateURL {
+                return candidateURL.scheme != nil && candidateURL.host != nil
+            }
+            return false
         }
         return false
     }

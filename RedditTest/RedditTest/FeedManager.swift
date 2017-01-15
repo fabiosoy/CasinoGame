@@ -62,6 +62,9 @@ class FeedManager : NSObject {
         coreDataManager.deleteAllData()
     }
     
+    func saveData()  {
+        coreDataManager.saveContext()
+    }
     
     fileprivate func persitData(_ list : [Any])  {
         for element in list {

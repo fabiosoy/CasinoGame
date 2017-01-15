@@ -39,11 +39,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G6r-D6-HbL">
-                                                    <rect key="frame" x="35" y="36" width="80" height="80"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G6r-D6-HbL">
+                                                    <rect key="frame" x="8" y="36" width="134" height="80"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="80" id="Etc-7o-9ye"/>
-                                                        <constraint firstAttribute="width" constant="80" id="QUR-pJ-v4J"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uxW-ta-pc9">
@@ -77,7 +76,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1X-LD-f8G">
-                                                    <rect key="frame" x="35" y="36" width="80" height="80"/>
+                                                    <rect key="frame" x="8" y="36" width="134" height="80"/>
                                                     <connections>
                                                         <action selector="thumbnailTouched:" destination="lzL-Nj-5Om" eventType="touchUpInside" id="wRQ-rE-WqA"/>
                                                     </connections>
@@ -95,10 +94,12 @@
                                             <constraint firstItem="VeJ-fu-xDl" firstAttribute="leading" secondItem="dvN-kZ-Bg9" secondAttribute="trailing" constant="1" id="7Ro-Ce-iOi"/>
                                             <constraint firstAttribute="leadingMargin" secondItem="uxW-ta-pc9" secondAttribute="leading" id="EaF-Hx-lhQ"/>
                                             <constraint firstItem="VeJ-fu-xDl" firstAttribute="centerY" secondItem="dvN-kZ-Bg9" secondAttribute="centerY" id="HWL-Cd-bIY"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="G6r-D6-HbL" secondAttribute="trailing" id="HtW-l6-h8p"/>
                                             <constraint firstItem="G6r-D6-HbL" firstAttribute="centerX" secondItem="uxW-ta-pc9" secondAttribute="centerX" id="IGE-83-8bj"/>
                                             <constraint firstItem="YiY-uv-De2" firstAttribute="top" secondItem="G6r-D6-HbL" secondAttribute="bottom" constant="6" id="LcO-he-6b1"/>
                                             <constraint firstItem="R1X-LD-f8G" firstAttribute="width" secondItem="G6r-D6-HbL" secondAttribute="width" id="NKK-7o-P0H"/>
                                             <constraint firstItem="G6r-D6-HbL" firstAttribute="top" secondItem="uxW-ta-pc9" secondAttribute="bottom" constant="10" id="XlM-I2-NHP"/>
+                                            <constraint firstItem="G6r-D6-HbL" firstAttribute="leading" secondItem="lzL-Nj-5Om" secondAttribute="leadingMargin" id="avO-l8-hPd"/>
                                             <constraint firstItem="R1X-LD-f8G" firstAttribute="centerY" secondItem="G6r-D6-HbL" secondAttribute="centerY" id="cc1-vf-wp2"/>
                                             <constraint firstAttribute="bottomMargin" secondItem="dvN-kZ-Bg9" secondAttribute="bottom" constant="23" id="deK-rS-DBL"/>
                                             <constraint firstItem="R1X-LD-f8G" firstAttribute="centerX" secondItem="G6r-D6-HbL" secondAttribute="centerX" id="fj0-5X-eCg"/>
@@ -279,8 +280,9 @@
                                                     <color key="textColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageBack" translatesAutoresizingMaskIntoConstraints="NO" id="KJj-uo-xnk">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imageBack" translatesAutoresizingMaskIntoConstraints="NO" id="KJj-uo-xnk">
                                                     <rect key="frame" x="8" y="49" width="80" height="80"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="80" id="9oe-8a-pu4"/>
                                                         <constraint firstAttribute="width" constant="80" id="U1L-Jd-W22"/>
@@ -438,6 +440,6 @@
         <image name="imageBack" width="80" height="80"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="yzJ-ta-A78"/>
+        <segue reference="UvO-fg-8XY"/>
     </inferredMetricsTieBreakers>
 </document>

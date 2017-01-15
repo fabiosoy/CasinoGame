@@ -80,9 +80,9 @@ class FeedModelView {
 
     fileprivate func proccesListModel(list : Array<Feed>) {
         for feed in list {
-            let feedDMV = FeedDetailModelView(newFeed:feed)
-            fullDataList.append(feedDMV)
-            dataList.append(feedDMV)
+            let feedDetailModelView = FeedDetailModelView(newFeed:feed)
+            fullDataList.append(feedDetailModelView)
+            dataList.append(feedDetailModelView)
         }
     }
     

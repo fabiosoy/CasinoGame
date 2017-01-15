@@ -70,20 +70,24 @@ class FeedDetailModelView : NSObject {
     //MARK: - Public Methods
     
     func getImage(callBackClosure : @escaping (UIImage?)->())  {
-        ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnail) { [weak self] (imageData : Data?) in
+        ConnectionManager.sharedInstance.gerImageFromServer(model.thumbnailUrl) { [weak self] (imageData : Data?) in
+            var image : UIImage?
             if let imageData = imageData {
                 self?.model.thumbnailData = imageData
-                callBackClosure(UIImage(data: imageData))
+                image = UIImage(data: imageData)
             }
+            callBackClosure(image)
         }
     }
     
     func getFullImage(callBackClosure : @escaping (UIImage?)->())  {
         ConnectionManager.sharedInstance.gerImageFromServer(model.imageFullUrl) { [weak self] (imageData : Data?) in
+            var image : UIImage?
             if let imageData = imageData {
                 self?.model.imageFullData = imageData
-                callBackClosure(UIImage(data: imageData))
+                image = UIImage(data: imageData)
             }
+            callBackClosure(image)
         }
     }
     

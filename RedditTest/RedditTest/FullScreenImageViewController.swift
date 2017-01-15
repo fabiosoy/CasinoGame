@@ -23,11 +23,12 @@ class FullScreenImageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.activityView.stopAnimating()
         self.imageView.image = UIImage(named:"imageBack")
         if let image = modelDetailView?.imageFull {
             self.imageView.image = image
         } else {
-            activityView.startAnimating()
+            self.activityView.startAnimating()
             modelDetailView?.getFullImage(callBackClosure: { [weak self] (image : UIImage?) in
                 DispatchQueue.main.async(execute: {
                     if let image = image {

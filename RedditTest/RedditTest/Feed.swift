@@ -13,7 +13,7 @@ import CoreData
 class Feed: NSManagedObject {
     func intiWithDictionary(_ dictionary : Dictionary<String,AnyObject>) {
         if let tittle = dictionary["title"] as? String { self.tittle = tittle }
-        if let thumbnail = dictionary["thumbnail"] as? String { self.thumbnail = thumbnail }
+        if let thumbnail = dictionary["thumbnail"] as? String { self.thumbnailUrl = thumbnail }
         if let author = dictionary["author"] as? String { self.author = author }
         if let num_comments = dictionary["num_comments"] as? Int { self.num_comments = num_comments as NSNumber? }
         if let seconds = dictionary["created_utc"] as? Int { self.date = Date(timeIntervalSince1970:Double(seconds))}

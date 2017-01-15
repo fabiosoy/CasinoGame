@@ -57,8 +57,21 @@ class ConnectionManager: NSObject {
         }
     }
     
+    func verifyUrl (urlString: String?) -> Bool {
+        //Check for nil
+        if let urlString = urlString {
+            // create NSURL instance
+            if let url = URL(string: urlString) {
+                // check if your application can open the NSURL instance
+                return UIApplication.shared.canOpenURL(url)
+            }
+        }
+        return false
+    }
+    
     func gerImageFromServer(_ url : String?, completionHandler : @escaping (Data?)->() ) {
-        guard let url = url,let request = URL(string: url) else {
+        guard let url = url,let request = URL(string: url), self.verifyUrl(urlString: url) else {
+            completionHandler(nil)
             return
         }
         URLSession.shared.dataTask(with: request) { data, response, error in

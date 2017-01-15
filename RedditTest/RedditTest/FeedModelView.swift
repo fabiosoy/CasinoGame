@@ -9,6 +9,14 @@
 import Foundation
 import UIKit
 
+enum RequestDataErrors: Error {
+    case noConnection
+    case isLoading
+    case maxItemsReached
+    case inSearchMode
+
+}
+
 
 class FeedModelView {
     //MARK: - Private Properties
@@ -52,11 +60,20 @@ class FeedModelView {
     
     //MARK: - Methods
 
-    func requestData(reload : Bool,callBack : (()->())? ) -> Bool {
-        guard (loadingData == false &&
-            fullDataList.count < Config.max_items &&
-            searchText.characters.count == 0 ) || reload == true else {
-                return false
+    func requestData(reload : Bool,callBack : (()->())? ) throws {
+        guard ConnectionManager.isConnectedToNetwork() else {
+            throw RequestDataErrors.noConnection
+        }
+        guard loadingData == false else {
+            throw RequestDataErrors.isLoading
+        }
+        guard searchText.characters.count == 0 else {
+            throw RequestDataErrors.inSearchMode
+        }
+        if reload == false {
+            guard fullDataList.count < Config.max_items  else {
+                throw RequestDataErrors.maxItemsReached
+            }
         }
         self.updateViewCallBack = callBack
         if reload {
@@ -65,7 +82,6 @@ class FeedModelView {
             dataList.removeAll()
         }
         self.requestData()
-        return true
     }
     
     func getElementsCount() -> Int {

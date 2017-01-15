@@ -41,20 +41,37 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
                 self.searchBar.placeholder = self.feedModelView.numbersOfArticlesText
                 self.refreshView()
             } else {
-                _ = self.feedModelView.requestData(reload: true, callBack: {
-                    self.showLoadinViews(show: false)
-                    self.refreshView()
-                })
+                do {
+                    try self.feedModelView.requestData(reload: true, callBack: {
+                        self.showLoadinViews(show: false)
+                        self.refreshView()
+                    })
+                } catch  {
+                    print(error)
+                }
             }
         }
     }
     
     func refreshData()  {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        self.feedModelView.searchText = ""
         self.showLoadinViews(show: true)
-        _ = self.feedModelView.requestData(reload: true) {
-            self.showLoadinViews(show: false)
-            self.refreshView()
+        do {
+            try self.feedModelView.requestData(reload: true, callBack: {
+                self.showLoadinViews(show: false)
+                self.refreshView()
+            })
+        } catch  {
+            switch error {
+            case RequestDataErrors.noConnection:
+                self.showLoadinViews(show: false)
+            default:
+                print(error)
+            }
         }
+        
         self.searchBar.placeholder = self.feedModelView.numbersOfArticlesText
         self.refreshView()
     }

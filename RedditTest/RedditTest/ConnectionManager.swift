@@ -15,7 +15,7 @@ class ConnectionManager: NSObject {
 
     //MARK: - Private Properties
 
-    fileprivate var afterToken : String?
+    private var afterToken : String?
     
     //MARK: - Feed Manager Methods
     

@@ -14,8 +14,8 @@ class CollectionViewCell: UICollectionViewCell {
     
     //MARK: - Private Properties
 
-    fileprivate weak var delegateCollectionViewCell : ThumbnailInteractionDelegate?
-    fileprivate var feedItemModelView : FeedItemModelView?
+    private weak var delegateCollectionViewCell : ThumbnailInteractionDelegate?
+    private var feedItemModelView : FeedItemModelView?
 
     //MARK: - IBOutlets
 

@@ -94,7 +94,7 @@ class FeedModelView {
     
     //MARK: - Private Methods
 
-    fileprivate func proccesListModel(list : Array<Feed>) {
+    private func proccesListModel(list : Array<Feed>) {
         for feed in list {
             let feedItemModelView = FeedItemModelView(newFeed:feed)
             fullDataList.append(feedItemModelView)
@@ -102,11 +102,11 @@ class FeedModelView {
         }
     }
     
-    fileprivate func loadStoredFeed() {
+    private func loadStoredFeed() {
         self.proccesListModel(list: feedManager.getStoredFeed())
     }
     
-    fileprivate func requestData()  {
+    private func requestData()  {
         loadingData = true
         feedManager.getFeed { [weak self](error : Error?, list : [Feed]) in
             guard error == nil else {

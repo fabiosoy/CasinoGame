@@ -13,8 +13,8 @@ class TableViewCell: UITableViewCell {
     
     //MARK: - Private Properties
     
-    fileprivate weak var delegateTableViewCell : ThumbnailInteractionDelegate?
-    fileprivate var feedItemModelView : FeedItemModelView?
+    private weak var delegateTableViewCell : ThumbnailInteractionDelegate?
+    private var feedItemModelView : FeedItemModelView?
 
     //MARK: - IBOutlets
   

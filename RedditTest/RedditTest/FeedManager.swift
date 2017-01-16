@@ -14,11 +14,11 @@ class FeedManager : NSObject {
     
     //MARK: - Private Properties
 
-    fileprivate var coreDataManager = CoreDataManager()
+    private var coreDataManager = CoreDataManager()
     
-    fileprivate var requestSended = false
+    private var requestSended = false
     
-    fileprivate var completionHandler : ((Error?, [Feed])->())?
+    private var completionHandler : ((Error?, [Feed])->())?
     
     //MARK: - Feed Manager Methods
 
@@ -66,7 +66,7 @@ class FeedManager : NSObject {
         coreDataManager.saveContext()
     }
     
-    fileprivate func persitData(_ list : [Any])  {
+    private func persitData(_ list : [Any])  {
         for element in list {
             if let element = element as? Dictionary<String,AnyObject> {
                 coreDataManager.insertNewObject(element)

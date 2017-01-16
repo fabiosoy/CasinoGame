@@ -71,17 +71,22 @@ class BaseViewController: UIViewController,UISearchBarDelegate,ThumbnailInteract
         searchBar.resignFirstResponder()
         self.feedModelView.searchText = ""
         self.showLoadinViews(show: true)
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
         do {
             try self.feedModelView.requestData(reload: true, callBack: {
                 self.showLoadinViews(show: false)
                 self.refreshView()
+                self.tabBarController?.tabBar.isUserInteractionEnabled = true
             })
         } catch  {
             switch error {
             case RequestDataErrors.noConnection:
                 self.showLoadinViews(show: false)
+                self.tabBarController?.tabBar.isUserInteractionEnabled = true
+            case RequestDataErrors.isLoading:
+                print("loading")
             default:
-                print(error)
+                self.tabBarController?.tabBar.isUserInteractionEnabled = true
             }
         }
         
